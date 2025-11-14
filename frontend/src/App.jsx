@@ -20,11 +20,11 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/animals" element={<Animals />} />
-            { <Route path="/login" element={<Login />} /> }
-            { <Route path="/register" element={<Register />} /> }
-            { <Route path="/profile" element={<Profile />} /> }
-            { <Route path="/volunteer" element={<Volunteer />} /> }
-            { <Route path="/admin" element={<Admin />} /> }
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
 

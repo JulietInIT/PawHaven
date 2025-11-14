@@ -4,7 +4,10 @@ export default function Navbar() {
   const { pathname } = useLocation();
 
   const navItems = [
-    { path: "/", label: "Register" },
+    { path: "/", label: "Home" },
+    { path: "/animals", label: "Animals" },
+    { path: "/login", label: "Login" },
+    { path: "/register", label: "Register" },
     { path: "/profile", label: "Profile" },
     { path: "/volunteer", label: "Volunteer" },
   ];
