@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "../api";
 
 export default function Register() {
@@ -18,11 +18,8 @@ export default function Register() {
 
     try {
       const res = await axios.post("/auth/register", form);
-      // Store token in localStorage
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data));
-      
-      // Redirect to home or dashboard
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
@@ -33,51 +30,68 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-100 flex items-center justify-center px-8 py-20">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow p-8 rounded-2xl w-full max-w-sm"
+        className="bg-white shadow-2xl p-12 rounded-3xl w-full max-w-lg"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
-        
+        <div className="text-center mb-10">
+          <h2 className="text-5xl font-bold text-blue-800 mb-3">
+            Create Account
+          </h2>
+          <p className="text-gray-700 text-xl">Join Paw Haven today</p>
+        </div>
+
         {error && (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-5 rounded-lg mb-8 text-lg">
             {error}
           </div>
         )}
-        
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Name"
-          className="border w-full p-2 rounded mb-3"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email"
-          className="border w-full p-2 rounded mb-3"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          className="border w-full p-2 rounded mb-4"
-          required
-        />
-        <button 
+
+        <div className="space-y-5 mb-8">
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Full Name"
+            className="w-full px-5 py-4 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:outline-none transition text-lg"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="Email Address"
+            className="w-full px-5 py-4 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:outline-none transition text-lg"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full px-5 py-4 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:outline-none transition text-lg"
+            required
+          />
+        </div>
+
+        <button
           disabled={loading}
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:bg-gray-400"
+          className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 hover:shadow-lg transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? "Signing Up..." : "Sign Up"}
+          {loading ? "Creating Account..." : "Sign Up"}
         </button>
+
+        <div className="mt-8 text-center">
+          <p className="text-gray-700 text-lg">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600 font-bold hover:text-blue-800 transition">
+              Login
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "../api";
 
 export default function Login() {
@@ -16,11 +16,8 @@ export default function Login() {
 
     try {
       const res = await axios.post("/auth/login", { email, password });
-      // Store token and user info in localStorage
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data));
-      
-      // Redirect to home or dashboard
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
@@ -31,41 +28,58 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-100 flex items-center justify-center px-8 py-20">
       <form
         onSubmit={handleLogin}
-        className="bg-white shadow p-8 rounded-2xl w-full max-w-sm"
+        className="bg-white shadow-2xl p-12 rounded-3xl w-full max-w-lg"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
-        
+        <div className="text-center mb-10">
+          <h2 className="text-5xl font-bold text-blue-800 mb-3">
+            Welcome Back
+          </h2>
+          <p className="text-gray-700 text-xl">Login to your account</p>
+        </div>
+
         {error && (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-5 rounded-lg mb-8 text-lg">
             {error}
           </div>
         )}
-        
-        <input
-          className="w-full border rounded-lg p-2 mb-3"
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className="w-full border rounded-lg p-2 mb-4"
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <button 
+
+        <div className="space-y-5 mb-8">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email Address"
+            className="w-full px-5 py-4 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:outline-none transition text-lg"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full px-5 py-4 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:outline-none transition text-lg"
+            required
+          />
+        </div>
+
+        <button
           disabled={loading}
-          className="w-full bg-orange-500 text-white rounded-lg py-2 hover:bg-orange-600 disabled:bg-gray-400"
+          className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 hover:shadow-lg transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Logging In..." : "Login"}
         </button>
+
+        <div className="mt-8 text-center">
+          <p className="text-gray-700 text-lg">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-blue-600 font-bold hover:text-blue-800 transition">
+              Sign Up
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
